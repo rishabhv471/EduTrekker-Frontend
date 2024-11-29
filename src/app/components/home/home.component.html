@@ -1,0 +1,189 @@
+<div
+  class="main-content dark:text-white text-black bg-white dark:bg-zinc-900"
+>
+  <!-- If user is logged in -->
+  <div *ngIf="isLoggedIn$ | async; else guestView">
+    <div *ngIf="accountDetails$ | async as userDetails; else guestView">
+      <div class="container mx-auto px-4 py-8">
+        <h2 class="dark:text-white text-black text-2xl font-semibold mb-4">
+          Hi {{ userDetails.firstName }}, let's start learning.
+        </h2>
+
+       <!--  wrap the carousel for dark mode background -->
+       <div class="dark:bg-zinc-900">
+        <div class="carousel w-full ">
+          <!--  include the schedule card if logged in -->
+          <div class="carousel-item mr-2 relative" *ngIf="showScheduleCard" style="background-image: url('/assets/banner-schedule.png'); background-size: cover; width: 450px; background-position: center; min-height: 250px;">
+            <button 
+              class="absolute top-0 right-0 p-2 text-lg font-bold text-black dark:text-white"
+              (click)="dismissScheduleCard()">
+              &times;
+            </button>
+            <div class="text-center mt-4 px-4 dark:bg-zinc-900">
+              <h2 class="text-left text-2xl absolute top-0 p-4 text-md font-semibold text-white dark:text-white">Schedule time to learn</h2>
+             
+              <a [routerLink]="['/calendar']" class="absolute bottom-0 right-0 m-4 btn btn-sm text-white btn-primary mt-2">Get started</a>
+            </div>
+          </div>
+
+          <!-- User courses -->
+          <ng-container class="dark:bg-zinc-900" *ngFor="let course of userDetails.registeredCourses; let i = index">
+            <div class="carousel-item mr-2 flex flex-col dark:bg-zinc-900">
+              <!-- card  -->
+              <div class="card bg-transparent rounded-none shadow-none flex flex-col max-w-xs mx-auto dark:text-white dark:bg-zinc-900">
+                <figure class="px-4 pt-4 cursor-pointer" (click)="getCourseById(course.platformId, course.platform)">
+                  <img src="{{ course.imageUrl }}" alt="Course image" class="rounded-none">
+                </figure>
+                <div class="text-left mt-4 px-4 dark:bg-zinc-900">
+                  <!-- text -->
+                  <h2 class="text-md font-semibold">{{ course.title }}</h2>
+                  <p>{{ course.headline | slice:0:80 }}<a *ngIf="course.headline.length > 80" href="/path/to/full/course/details">... </a></p>
+                  <p class="text-sm">{{ course.instructor }}</p>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- banners for guests (not logged in) -->
+  <ng-template #guestView>
+    <div class="carousel">
+      <div class="carousel-item w-full">
+        <a routerLink="/join/login">
+          <img
+            class="w-full"
+            src="/assets/banner-home-4.png"
+            alt="home-banner-4"
+          />
+        </a>
+      </div>
+      <div class="carousel-item w-full">
+        <a routerLink="/join/login">
+          <img
+            class="w-full"
+            src="/assets/banner-home-1.png"
+            alt="home-banner-1"
+          />
+        </a>
+      </div>
+      <div class="carousel-item w-full">
+        <a routerLink="/join/login">
+          <img
+            class="w-full"
+            src="/assets/banner-home-2.png"
+            alt="home-banner-2"
+          />
+        </a>
+      </div>
+      <div class="carousel-item w-full">
+        <a routerLink="/join/login">
+          <img
+            class="w-full"
+            src="/assets/banner-home-3.png"
+            alt="home-banner-3"
+          />
+        </a>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- shown to all guests + logged in users -->
+  <div class="container mx-auto px-4 py-8">
+    <h2 class="dark:text-white text-black text-2xl font-semibold mb-4">
+      Learners are viewing top courses in:
+    </h2>
+    <div class="flex gap-4 mb-4 overflow-auto bg-white dark:bg-zinc-900">
+      <span
+        *ngFor="let category of categories"
+        (click)="selectCategory(category)"
+        class="cursor-pointer hover:text-secondary dark:bg-zinc-900"
+        [ngClass]="{
+          'font-bold text-secondary': category === selectedCategory,
+          'text-gray-500 dark:text-white': category !== selectedCategory
+        }"
+      >
+        {{ category }}
+      </span>
+    </div>
+
+    <div *ngIf="isLoading; else courseCarousel">
+      <div class="flex justify-center items-center">
+        <div class="loading loading-spinner loading-lg text-primary">
+          <span>Fetching course recommentations</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- carousel for selected category courses -->
+    <ng-template #courseCarousel>
+      <div
+        *ngIf="homepageCourses$ | async as selectedCourses"
+        class="carousel w-full"
+      >
+        <ng-container *ngFor="let course of selectedCourses " >
+          <div class="carousel-item mr-2 flex flex-col clickable" (click)="getCourseDetails(course.platformId, course.platform)">
+            <div
+              class="card bg-transparent rounded-none shadow-none flex flex-col max-w-xs mx-auto dark:bg-transparent"
+            >
+              <figure class="px-4 pt-4">
+                <img
+                  src="{{ course.imageUrl }}"
+                  alt="Course image"
+                  class="rounded-none"
+                />
+              </figure>
+              <div class="text-left mt-4 px-4">
+                <h2 class="text-md font-semibold text-gray-900 dark:text-white">
+                  {{ course.title }}
+                </h2>
+                <p class="text-sm text-gray-700 dark:text-gray-300">
+                  {{ course.headline | slice : 0 : 80
+                  }}<span
+                    *ngIf="course.headline.length > 80"
+                    href="/path/to/full/course/details"
+                    >...
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- navigation for carousel -->
+        <div class="flex justify-center gap-4 mt-4">
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<footer class="footer bg-zinc-800 text-neutral-content">
+  <div class="flex flex-col md:flex-row justify-between items-center w-full p-10">
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+      <a href="/" class="mb-6 md:mb-0 flex items-center">
+        <img src="/assets/logo-studytrek.png" alt="Study Trek Logo" class="h-8">
+      </a>
+      <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+        <nav>
+          <h6 class="footer-title">Member quick links</h6> 
+          <a [routerLink]="['/home/profile']" class="link link-hover block">My Account</a>
+          <a [routerLink]="['/home/my-courses']" class="link link-hover block">My Courses</a>
+          <a [routerLink]="['/calendar']" class="link link-hover block">Calendar</a>
+          <a [routerLink]="['/forum']" class="link link-hover block">Forum</a>
+        </nav> 
+        <nav>
+          <h6 class="footer-title">Premium subscribers</h6> 
+          <a [routerLink]="['/course-navigator']" class="link link-hover block">Course Navigator</a>
+          <a [routerLink]="['/telegram']" class="link link-hover block">Study Trek Telegram Bot</a>
+        </nav>
+      </div>
+    </div>
+    <div class="text-sm">
+      &copy; <script>document.write(new Date().getFullYear())</script> Study Trek, Inc.
+    </div>
+  </div>
+</footer>

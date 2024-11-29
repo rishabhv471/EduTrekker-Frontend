@@ -1,0 +1,63 @@
+<div class="flex min-h-screen items-start bg-cover bg-center bg-no-repeat pt-32" 
+  style="background-image: url('assets/background-subscribe.png')">
+  <div *ngIf="isSubscriber; else notSubscriberContent">
+    <p>PREMIUM SUBSCRIBER</p>
+  </div>
+
+  <ng-template #notSubscriberContent>
+    <div class="w-1/2 flex flex-col justify-center -mt-8 px-12  dark:text-white">
+      <h1 class="text-4xl font-bold mb-4">Enhance Your Learning Experience</h1>
+      <p class="text-lg">
+        Join our community of learners and get access to premium features that
+        will take your learning to the next level. Our Course Navigator and Study Buddy features are designed to enhance your
+        educational journey.
+      </p>
+    </div>
+
+    <div class="w-1/2 px-2 flex justify-center items-center -mt-8">
+      <div
+        class="bg-white border border-gray-200 p-8 rounded-lg shadow-lg text-center"
+      >
+        <h2 class="text-2xl font-bold mb-4 text-black">PREMIUM PLAN</h2>
+        <p class="mb-8 text-black">
+          For $5 a month, gain access to Course Navigator and Study Buddy.
+        </p>
+        <button
+          (click)="subscribe()" class="btn btn-secondary rounded-full px-8 py-3 text-white font-bold mb-4 w-full"
+        >
+          START YOUR PREMIUM SUBSCRIPTION
+        </button>
+        <p class="text-sm text-black">
+          Digital Subscription. Billed monthly. Renews automatically.
+          Cancel at any time.
+        </p>
+      </div>
+    </div>
+  </ng-template>
+</div>
+<footer class="footer bg-zinc-800 text-neutral-content">
+  <div class="flex flex-col md:flex-row justify-between items-center w-full p-10">
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+      <a href="/" class="mb-6 md:mb-0 flex items-center">
+        <img src="/assets/logo-studytrek.png" alt="Study Trek Logo" class="h-8">
+      </a>
+      <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+        <nav>
+          <h6 class="footer-title">Member quick links</h6> 
+          <a [routerLink]="['/home/profile']" class="link link-hover block">My Account</a>
+          <a [routerLink]="['/home/my-courses']" class="link link-hover block">My Courses</a>
+          <a [routerLink]="['/calendar']" class="link link-hover block">Calendar</a>
+          <a [routerLink]="['/forum']" class="link link-hover block">Forum</a>
+        </nav> 
+        <nav>
+          <h6 class="footer-title">Premium subscribers</h6> 
+          <a [routerLink]="['/course-navigator']" class="link link-hover block">Course Navigator</a>
+          <a [routerLink]="['/telegram']" class="link link-hover block">Study Trek Telegram Bot</a>
+        </nav>
+      </div>
+    </div>
+    <div class="text-sm">
+      &copy; <script>document.write(new Date().getFullYear())</script> Study Trek, Inc.
+    </div>
+  </div>
+</footer>

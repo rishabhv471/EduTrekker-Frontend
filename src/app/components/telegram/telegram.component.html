@@ -1,0 +1,52 @@
+<div class="main-content">
+  <div class="min-h-screen flex items-center justify-center -mt-12">
+    <div class="flex flex-wrap w-full lg:max-w-4xl shadow-lg rounded-lg overflow-hidden">
+      <!-- Text Container -->
+      <div class="w-full md:w-1/2 p-6 flex flex-col justify-center bg-white dark:bg-zinc-900">
+        <div class="p-4">
+          <h2 class="text-2xl font-semibold text-sky-500">Your Telegram Link Code</h2>
+          <p class="mt-2 text-gray-800 dark:text-white">Here is your unique code to link your Telegram account:</p>
+          <div class="p-3 mt-3 bg-gray-100 rounded text-lg font-semibold font-mono text-center text-indigo-600">
+            {{ linkCode }}
+          </div>
+          <p class="mt-4 text-gray-800 dark:text-white">Access the bot here: <a href="https://t.me/studytrekbot" class="text-indigo-600 hover:text-blue-600">https://t.me/studytrekbot</a></p>
+          <p class="mt-2 text-gray-800 dark:text-white">Open your Telegram app and login using the /link command in this format:</p>
+          <div class="bg-gray-50 p-2 rounded mt-2">
+            <p class="text-center font-mono text-indigo-600">/link code email</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Image Container -->
+      <div class="w-full md:w-1/2 h-96 bg-cover bg-center" style="background-image: url('assets/image-computer.png');">
+      </div>
+    </div>
+  </div>
+  
+</div>
+<footer class="footer bg-zinc-800 text-neutral-content">
+  <div class="flex flex-col md:flex-row justify-between items-center w-full p-10">
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+      <a href="/" class="mb-6 md:mb-0 flex items-center">
+        <img src="/assets/logo-studytrek.png" alt="Study Trek Logo" class="h-8">
+      </a>
+      <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+        <nav>
+          <h6 class="footer-title">Member quick links</h6> 
+          <a [routerLink]="['/home/profile']" class="link link-hover block">My Account</a>
+          <a [routerLink]="['/home/my-courses']" class="link link-hover block">My Courses</a>
+          <a [routerLink]="['/calendar']" class="link link-hover block">Calendar</a>
+          <a [routerLink]="['/forum']" class="link link-hover block">Forum</a>
+        </nav> 
+        <nav>
+          <h6 class="footer-title">Premium subscribers</h6> 
+          <a [routerLink]="['/course-navigator']" class="link link-hover block">Course Navigator</a>
+          <a [routerLink]="['/telegram']" class="link link-hover block">Study Trek Telegram Bot</a>
+        </nav>
+      </div>
+    </div>
+    <div class="text-sm">
+      &copy; <script>document.write(new Date().getFullYear())</script> Study Trek, Inc.
+    </div>
+  </div>
+</footer>

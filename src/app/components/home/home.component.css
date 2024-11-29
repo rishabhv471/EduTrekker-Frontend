@@ -1,0 +1,36 @@
+.full-width-image {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.light .main-content {
+  min-height: 100vh;
+  background-color: #fff;
+}
+
+.dark .carousel-container {
+  background-color: #18181b; 
+}
+
+.dark .carousel,
+.dark .main-content {
+  background-color: #18181b;
+}
+
+.dark .carousel-item,
+.dark .carousel .card,
+.dark .text-left {
+  background-color: #18181b;
+  color: #fff;
+}
+
+a {
+  cursor: pointer;
+}
+.button, .clickable, [role="button"], div[onclick] {
+  cursor: pointer;
+}

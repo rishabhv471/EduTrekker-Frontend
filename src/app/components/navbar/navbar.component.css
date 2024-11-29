@@ -1,0 +1,15 @@
+.profile-dropdown {
+    position: relative;
+    overflow: visible;
+  }
+  
+  .dropdown-content {
+    position: absolute;
+    z-index: 9999; 
+    right: 0;
+    top: 100%;
+    background: white; 
+    color: black;
+    display: block; 
+}
+  

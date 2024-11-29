@@ -1,0 +1,73 @@
+<div class="main-content">
+  <div class="bg-white dark:bg-zinc-900 text-black dark:text-white container mx-auto px-16 py-8">
+    <h1 class="text-4xl font-bold mb-4" >Your learning schedule</h1>
+  
+  <div class="calendar-container">
+  <div class="container mb-4">
+      <button class="btn-outline border btn-secondary btn-sm rounded-md mr-4" (click)="goToPreviousWeek()">Previous </button>
+      <button class="bg-green-300 hover:bg-green-200 hover:text-stone-800 text-stone-900 btn-sm rounded-md" (click)="goToNextWeek()">Next</button>
+      <ng-template  class="text-black" #weekViewHourSegmentTemplate 
+         let-segment="segment" vent 
+         let-locale="locale" 
+         let-segmentHeight="segmentHeight" 
+         let-isTimeLabel="isTimeLabel"
+       >
+        <div #segmentElement 
+           class="cal-hour-segment" 
+           [style.height.px]="segmentHeight"   
+           [class.cal-hour-start]="segment.isStart"
+           [class.cal-after-hour-start]="!segment.isStart" 
+           [ngClass]="segment.cssClass">
+            <div class="cal-time" *ngIf="isTimeLabel">
+                {{ segment.date | calendarDate:'weekViewHour':locale }}
+            </div>
+        </div>
+    </ng-template>
+    </div>
+    <div class="calendar-wrapper">
+      <mwl-calendar-week-view
+        [viewDate]="viewDate"
+        [events]="events"
+        [hourSegmentTemplate]="weekViewHourSegmentTemplate"
+        [weekStartsOn]="weekStartsOn"
+        [dayStartHour]="viewStart"
+        [dayEndHour]="viewEnd"
+        (hourSegmentClicked)="onHourSegmentClicked($event)">
+      </mwl-calendar-week-view>
+    </div>
+    
+  </div>
+  <div *ngIf="showAlert" class="custom-alert bg-gray-800 text-white transition-opacity duration-1000" >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    </svg>
+    <span>Click on a time slot to schedule an event</span>
+  </div>
+  
+</div>
+<footer class="footer bg-zinc-800 text-neutral-content">
+  <div class="flex flex-col md:flex-row justify-between items-center w-full p-10">
+    <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+      <a href="/" class="mb-6 md:mb-0 flex items-center">
+        <img src="/assets/logo-studytrek.png" alt="Study Trek Logo" class="h-8">
+      </a>
+      <div class="flex flex-col md:flex-row space-x-0 md:space-x-10">
+        <nav>
+          <h6 class="footer-title">Member quick links</h6> 
+          <a [routerLink]="['/home/profile']" class="link link-hover block">My Account</a>
+          <a [routerLink]="['/home/my-courses']" class="link link-hover block">My Courses</a>
+          <a [routerLink]="['/calendar']" class="link link-hover block">Calendar</a>
+          <a [routerLink]="['/forum']" class="link link-hover block">Forum</a>
+        </nav> 
+        <nav>
+          <h6 class="footer-title">Premium subscribers</h6> 
+          <a [routerLink]="['/course-navigator']" class="link link-hover block">Course Navigator</a>
+          <a [routerLink]="['/telegram']" class="link link-hover block">Study Trek Telegram Bot</a>
+        </nav>
+      </div>
+    </div>
+    <div class="text-sm">
+      &copy; <script>document.write(new Date().getFullYear())</script> Study Trek, Inc.
+    </div>
+  </div>
+</footer>
